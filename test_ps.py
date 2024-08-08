@@ -147,9 +147,9 @@ def test_extract_person_details(playwright):
         df["Emails-Ryan"] = None
 
     for index, row in df.iterrows():
-        if row["Phone numbers-Ryan"] is not None:
+        if pd.notna(row["Phone numbers-Ryan"]):
             continue
-        if row["Emails-Ryan"] is not None:
+        if pd.notna(row["Emails-Ryan"]):
             continue
         address1 = row["Property Address"]
         address2 = str(row["Mailing City"]) + ", " + str(row["Mailing State"])
@@ -167,7 +167,7 @@ def test_extract_person_details(playwright):
         df.at[index, "Emails-Ryan"] = email_data
 
         # Save the modified DataFrame to a new CSV file
-        df.to_csv("fha_loans_mini_new.csv", index=False)
+        df.to_csv("fha_loans_mini.csv", index=False)
 
     page.wait_for_timeout(5000)  # Wait for the test to complete
     browser.close()
